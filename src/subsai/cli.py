@@ -94,7 +94,7 @@ def run(media_file_arg: List[str],
         else:
             folder = file.parent
         if output_suffix is not None:
-            file_name = folder / (file.stem + '-' + output_suffix + '.' + subs_format)
+            file_name = folder / (file.stem + output_suffix + '.' + subs_format)
         else:
             file_name = folder / (file.stem + '.' + subs_format)
 
