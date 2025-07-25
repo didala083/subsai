@@ -12,6 +12,7 @@ import os.path
 import shutil
 import sys
 import tempfile
+import time
 from base64 import b64encode
 from pathlib import Path
 
@@ -321,6 +322,8 @@ def webui() -> None:
         transcribe_loading_placeholder = st.empty()
 
     if transcribe_button:
+        start_time = time.time()
+        transcribe_loading_placeholder.info('Transcribing...', icon="⏳")
         config_schema = SubsAI.config_schema(stt_model_name)
         if configs_mode == 'Manual':
             model_config = _get_config_from_session_state(stt_model_name, config_schema, notification_placeholder)
@@ -329,7 +332,13 @@ def webui() -> None:
                 model_config = json.load(f)
         subs = _transcribe(file_path, stt_model_name, model_config)
         st.session_state['transcribed_subs'] = subs
-        transcribe_loading_placeholder.success('Done!', icon="✅")
+
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        mins = int(elapsed_time // 60)
+        secs = int(elapsed_time % 60)
+
+        transcribe_loading_placeholder.success(f'Done in {mins:02d}:{secs:02d}!', icon="✅")
 
     with st.expander('Post Processing Tools', expanded=False):
         basic_tool = st.selectbox('Basic tools', options=['', 'Set time', 'Shift'],

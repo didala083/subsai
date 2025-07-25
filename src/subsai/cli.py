@@ -6,6 +6,7 @@ SubsAI Command Line Interface (cli)
 """
 import argparse
 import importlib.metadata
+import time
 from typing import List
 
 __author__ = "abdeladim-s"
@@ -115,6 +116,7 @@ def run(media_file_arg: List[str],
 
 
 def main():
+    start_time = time.time()
     print(__header__)
     parser = argparse.ArgumentParser(description="", allow_abbrev=True)
     # Positional args
@@ -156,6 +158,12 @@ def main():
         translation_source_lang=args.translation_source_lang,
         translation_target_lang=args.translation_target_lang,
         output_suffix=args.output_suffix)
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    mins = int(elapsed_time // 60)
+    secs = int(elapsed_time % 60)
+    print(f"\nDone in {mins:02d}:{secs:02d}")
 
 
 if __name__ == '__main__':
