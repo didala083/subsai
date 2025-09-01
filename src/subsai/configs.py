@@ -8,40 +8,74 @@ Configurations file
 from ffsubsync.constants import DEFAULT_MAX_SUBTITLE_SECONDS, DEFAULT_START_SECONDS, DEFAULT_MAX_OFFSET_SECONDS, \
     DEFAULT_APPLY_OFFSET_SECONDS, DEFAULT_FRAME_RATE, DEFAULT_VAD
 
-from subsai.models.faster_whisper_model import FasterWhisperModel
-from subsai.models.hugging_face_model import HuggingFaceModel
-from subsai.models.whisperX_model import WhisperXModel
-from subsai.models.whisper_model import WhisperModel
-from subsai.models.whisper_timestamped_model import WhisperTimeStamped
-from subsai.models.whispercpp_model import WhisperCppModel
-from subsai.utils import get_available_devices, available_translation_models
-from subsai.models.stable_ts_model import StableTsModel
-from subsai.models.whisper_api_model import WhisperAPIModel
+try:
+    from subsai.models.faster_whisper_model import FasterWhisperModel
+except ImportError as e:
+    print(e)
+try:
+    from subsai.models.hugging_face_model import HuggingFaceModel
+except ImportError as e:
+    print(e)
+try:
+    from subsai.models.whisperX_model import WhisperXModel
+except ImportError as e:
+    print(e)
+try:
+    from subsai.models.whisper_model import WhisperModel
+except ImportError as e:
+    print(e)
+try:
+    from subsai.models.whisper_timestamped_model import WhisperTimeStamped
+except ImportError as e:
+    print(e)
+try:
+    from subsai.models.whispercpp_model import WhisperCppModel
+except ImportError as e:
+    print(e)
+try:
+    from subsai.utils import get_available_devices, available_translation_models
+except ImportError as e:
+    print(e)
+try:
+    from subsai.models.stable_ts_model import StableTsModel
+except ImportError as e:
+    print(e)
+try:
+    from subsai.models.whisper_api_model import WhisperAPIModel
+except ImportError as e:
+    print(e)
 
-AVAILABLE_MODELS = {
-    'openai/whisper': {
+AVAILABLE_MODELS = {}
+if "WhisperModel" in locals():
+    AVAILABLE_MODELS['openai/whisper'] = {
         'class': WhisperModel,
         'description': 'Whisper is a general-purpose speech recognition model. It is trained on a large dataset of '
                        'diverse audio and is also a multi-task model that can perform multilingual speech recognition '
                        'as well as speech translation and language identification.',
         'url': 'https://github.com/openai/whisper',
         'config_schema': WhisperModel.config_schema,
-    },
-    'linto-ai/whisper-timestamped': {
+    }
+
+if "WhisperTimeStamped" in locals():
+    AVAILABLE_MODELS['linto-ai/whisper-timestamped'] = {
         'class': WhisperTimeStamped,
         'description': 'Multilingual Automatic Speech Recognition with word-level timestamps and confidence.',
         'url': 'https://github.com/linto-ai/whisper-timestamped',
         'config_schema': WhisperTimeStamped.config_schema,
-    },
-    'ggerganov/whisper.cpp': {
+    }
+
+if "WhisperCppModel" in locals():
+    AVAILABLE_MODELS['ggerganov/whisper.cpp'] = {
         'class': WhisperCppModel,
         'description': 'High-performance inference of OpenAI\'s Whisper automatic speech recognition (ASR) model\n'
                        '* Plain C/C++ implementation without dependencies\n'
                        '* Runs on the CPU\n',
         'url': 'https://github.com/ggerganov/whisper.cpp\nhttps://github.com/abdeladim-s/pywhispercpp',
         'config_schema': WhisperCppModel.config_schema,
-    },
-    'guillaumekln/faster-whisper': {
+    }
+
+if "FasterWhisperModel" in locals():
+    AVAILABLE_MODELS['guillaumekln/faster-whisper'] = {
         'class': FasterWhisperModel,
         'description': '**faster-whisper** is a reimplementation of OpenAI\'s Whisper model using '
                        '[CTranslate2](https://github.com/OpenNMT/CTranslate2/), which is a fast inference engine for '
@@ -51,33 +85,38 @@ AVAILABLE_MODELS = {
                        'efficiency can be further improved with 8-bit quantization on both CPU and GPU.',
         'url': 'https://github.com/guillaumekln/faster-whisper',
         'config_schema': FasterWhisperModel.config_schema,
-    },
-    'm-bain/whisperX': {
+    }
+if "WhisperXModel" in locals():
+    AVAILABLE_MODELS['m-bain/whisperX'] = {
         'class': WhisperXModel,
         'description': """**whisperX** is a fast automatic speech recognition (70x realtime with large-v2) with word-level timestamps and speaker diarization.""",
         'url': 'https://github.com/m-bain/whisperX',
         'config_schema': WhisperXModel.config_schema,
-    },
-    'jianfch/stable-ts': {
+    }
+if "StableTsModel" in locals():
+    AVAILABLE_MODELS['jianfch/stable-ts'] = {
         'class': StableTsModel,
         'description': '**Stabilizing Timestamps for Whisper** This library modifies [Whisper](https://github.com/openai/whisper) to produce more reliable timestamps and extends its functionality.',
         'url': 'https://github.com/jianfch/stable-ts',
         'config_schema': StableTsModel.config_schema,
-    },
-    'API/openai/whisper': {
+    }
+if "WhisperAPIModel" in locals():
+    AVAILABLE_MODELS['API/openai/whisper'] = {
         'class': WhisperAPIModel,
         'description': 'API for the OpenAI large-v2 Whisper model, requires an API key.',
         'url': 'https://platform.openai.com/docs/guides/speech-to-text',
         'config_schema': WhisperAPIModel.config_schema,
-    },
-    'HuggingFace': {
+    }
+if "HuggingFaceModel" in locals():
+    AVAILABLE_MODELS['HuggingFaceModel'] = {
         'class': HuggingFaceModel,
         'description': 'Hugging Face implementation of Whisper. '
                        'Any speech recognition pretrained model from the Hugging Face hub can be used as well',
         'url': 'https://huggingface.co/tasks/automatic-speech-recognition',
         'config_schema': HuggingFaceModel.config_schema,
-    },
-}
+    }
+if not AVAILABLE_MODELS:
+    raise Exception("subsai couldn't find any available models")
 
 BASIC_TOOLS_CONFIGS = {
     'set time': {
