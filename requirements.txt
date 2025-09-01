@@ -20,6 +20,7 @@ streamlit-aggrid~=0.3.4
 
 # openai API:
 openai==1.60.1
+ffmpeg-python>=0.2.0
 
 # whisper timestamped:
 whisper-timestamped @ git+https://github.com/linto-ai/whisper-timestamped
