@@ -37,7 +37,7 @@ def convert_video_to_audio_ffmpeg(video_file, output_ext="mp3"):
         .input(video_file)
         .output(output_file)
         .overwrite_output()
-        .run(quiet=True)
+        .run(quiet=False)
     )
     return output_file
 
