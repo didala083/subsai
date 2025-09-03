@@ -123,7 +123,7 @@ class WhisperAPIModel(AbstractModel):
         return chunks
         
 
-    def transcribe(self, media_file) -> str:
+    def transcribe(self, media_file: str) -> str:
 
         audio_file_path = convert_video_to_audio_ffmpeg(media_file)
 
