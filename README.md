@@ -172,6 +172,13 @@ subsai media.txt --model openai/whisper --format srt
 
 ### From Python
 
+To install:
+1. `git clone https://github.com/absadiki/subsai`
+2. `cd subsai`
+3. `uv pip install -e .`
+
+*Note: For minimal installs or if having issues installing dependencies, you can comment the dependencies for backends you won't use in the file `requirements.txt`.*
+
 ```python
 from subsai import SubsAI
 
