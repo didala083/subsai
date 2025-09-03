@@ -256,7 +256,7 @@ class Tools:
             model = subs_ai.create_model('openai/whisper', {'model_type': 'tiny'})
             en_subs = subs_ai.transcribe(file, model)
             ar_subs = pysubs2.load('../../assets/video/test0-ar.srt')
-            Tools.merge_subs_with_video2({'English': subs, "Arabic": subs2}, file)
+            Tools.merge_subs_with_video({'English': subs, "Arabic": subs2}, file)
         ```
 
         :param subs: dict with (lang,`SSAFile` object) key,value pairs
@@ -311,5 +311,5 @@ if __name__ == '__main__':
     subs = subs_ai.transcribe(file, model)
     subs.save('../../assets/video/test1.srt')
     subs2 = pysubs2.load('../../assets/video/test0-ar.srt')
-    Tools.merge_subs_with_video2({'English': subs, "Arabic": subs2}, file)
+    Tools.merge_subs_with_video({'English': subs, "Arabic": subs2}, file)
     # subs.save('test1.srt')

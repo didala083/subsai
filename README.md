@@ -46,7 +46,7 @@
   * [x] [Hugging Face Transformers](https://huggingface.co/tasks/automatic-speech-recognition)
     * > Hugging Face implementation of Whisper.  Any speech recognition pretrained model from the Hugging Face hub can be used as well.
   * [x] [API/openai/whisper](https://platform.openai.com/docs/guides/speech-to-text)
-    * > OpenAI Whisper via their API
+    * > OpenAI Whisper via their API. Or any other openai-like API for whisper (e.g. [speaches.ai](https://github.com/speaches-ai/speaches))
 
 * Web UI
   * Fully offline, no third party services 

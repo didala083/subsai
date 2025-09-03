@@ -37,7 +37,7 @@ def convert_video_to_audio_ffmpeg(video_file, output_ext="mp3"):
         .input(video_file)
         .output(output_file)
         .overwrite_output()
-        .run(quiet=True)
+        .run(quiet=False)
     )
     return output_file
 
@@ -75,6 +75,12 @@ class WhisperAPIModel(AbstractModel):
                 'description': "The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.",
                 'options': None,
                 'default': 0
+            },
+            'base_url': {
+                'type': str,
+                'description': "The base URL for the API. Useful if you're already self hosting whisper for example.",
+                'options': None,
+                'default': "https://api.openai.com/v1/"
             }
         }
 
@@ -85,8 +91,11 @@ class WhisperAPIModel(AbstractModel):
         self.language = _load_config('language', model_config, self.config_schema)
         self.prompt = _load_config('prompt', model_config, self.config_schema)
         self.temperature = _load_config('temperature', model_config, self.config_schema)
+        self.base_url = _load_config('base_url', model_config, self.config_schema)
+        if not self.base_url.endswith("/"):
+            self.base_url += "/"
 
-        self.client = OpenAI(api_key=self.api_key)
+        self.client = OpenAI(api_key=self.api_key, base_url=self.base_url)
 
     def chunk_audio(self,audio_file_path) -> list:
         # Load the audio file
